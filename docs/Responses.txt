@@ -1,0 +1,7 @@
+1. Read the seven classes and compare them with the class diagram. How many actors
+(people or teams) can ask for a change in ParkingGarage? Name them.
+    Parking garage got 4 actors
+    Finance : Changes parking tariffs and pricing rules
+    Customer service : Changes cancellation and refund rules
+    Management team: Changes daily reports
+    IT :Changes how receipts are stored
