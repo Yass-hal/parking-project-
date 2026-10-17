@@ -5,3 +5,49 @@
     Customer service : Changes cancellation and refund rules
     Management team: Changes daily reports
     IT :Changes how receipts are stored
+
+3. For each change request below, list the existing files that must be edited with the
+current design:
+a. a new vehicle type BUS, charged 15 MAD per hour
+b. a new payment method by mobile wallet, which can be refunded
+c. receipts logged in a database instead of a file
+d. a daily report in CSV format
+
+    3a a new vehicle type bus charged 15 mad per hour we must modify parkinggarage
+    java to add bus to the switch statement in the fee method we may also modify main java to create and test a bus
+
+    3b a new payment method by mobile wallet which can be refunded we must create a new mobilewalletpayment
+    java class implementing paymentmethod and modify main java to use it the existing parkinggarage java does not
+    need modification because it already accepts paymentmethod
+
+    3c receipts logged in a database instead of a file we must modify parkinggarage java because it directly
+    creates a filelogger we also need to create a new class for database logging
+
+    3d a daily report in csv format we must modify parkinggarage java specifically the dailyreport method to
+    generate the report in csv format instead of plain text
+
+
+4. In ParkingGarage.cancel, remove the test method instanceof CashPayment so
+that method.refund(amount) is always called, and run the program again. What
+happens? Which principle does CashPayment break, and why is the instanceof test
+not an acceptable fix?
+
+    Without the instanceof CashPayment check, the code throws an UnsupportedOperationException
+    because CashPayment does not support automatic refunding
+    CashPayment breaks the Liskov Substitution Principle (LSP), as it is not safe to substitute
+    some other PaymentMethod with CashPayment when refund is needed
+    The instanceof check is not the proper solution, since adding any other non-refundable
+    payment method would require us to change the ParkingGarage class once again
+
+
+5. Try to write a test that checks the fee of a truck parked for 4 hours and its checkout,
+without creating the file parking.log. Why is it impossible with the current design?
+
+    The truck checkout cannot be tested without the creation of parking.log since
+    ParkingGarage always creates the FileLogger.
+
+    The checkout() function always uses logger.log() where the receipt is written to the file. We cannot mock the FileLogger
+    since the dependency is hard-coded in the ParkingGarage class
+
+    This breaks the Dependency Inversion Principle (DIP). The fix would be to define a Logger interface and inject the
+    dependency using the constructor so that we can mock the logger
