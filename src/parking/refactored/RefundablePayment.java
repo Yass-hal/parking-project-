@@ -1,4 +1,7 @@
 package parking.refactored;
 
-public interface RefundablePayment {
+public interface RefundablePayment extends PaymentMethod{
+
+    void refund(double amount);
+
 }
